@@ -35,26 +35,34 @@ const renderCountry = function (data, className = '') {
   countriesContainer.insertAdjacentHTML('beforeend', html);
   countriesContainer.style.opacity = 1;
 };
-const getCountryAndNeighbour = function (country) {
-  const request = new XMLHttpRequest();
-  request.open('GET', `https://restcountries.com/v2/name/${country} `);
-  request.send();
+// const getCountryAndNeighbour = function (country) {
+//   const request = new XMLHttpRequest();
+//   request.open('GET', `https://restcountries.com/v2/name/${country} `);
+//   request.send();
 
-  request.addEventListener('load', function () {
-    const [data] = JSON.parse(this.responseText);
-    console.log(data);
-    renderCountry(data);
+//   request.addEventListener('load', function () {
+//     const [data] = JSON.parse(this.responseText);
+//     console.log(data);
+//     renderCountry(data);
 
-    const request2 = new XMLHttpRequest();
-    request2.open('GET', `https://restcountries.com/v2/alpha/${data.borders?.[0]} `);
-    request2.send();
+//     const request2 = new XMLHttpRequest();
+//     request2.open('GET', `https://restcountries.com/v2/alpha/${data.borders?.[0]} `);
+//     request2.send();
 
-    request2.addEventListener('load', function () {
-      const data1 = JSON.parse(this.responseText);
-      console.log(data1);
-      renderCountry(data1,'neighbour');
-    });
-  });
+//     request2.addEventListener('load', function () {
+//       const data1 = JSON.parse(this.responseText);
+//       console.log(data1);
+//       renderCountry(data1,'neighbour');
+//     });
+//   });
+// };
+
+// getCountryAndNeighbour('usa');
+
+const getCountry = function (country) {
+  fetch(`https://restcountries.com/v2/name/${country}`)
+    .then(response => response.json())
+    .then(data => renderCountry(data[0]));
 };
 
-getCountryAndNeighbour('usa');
+getCountry('rsa');
